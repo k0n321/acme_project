@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 # Импортируем класс модели Birthday.
 from .models import Birthday
 
-
+BEATLES = {'Джон Леннон', 'Пол Маккартни', 'Джордж Харрисон', 'Ринго Старр'}
 
 # Для использования формы с моделями меняем класс на forms.ModelForm.
 class BirthdayForm(forms.ModelForm):
@@ -28,7 +28,7 @@ class BirthdayForm(forms.ModelForm):
         # и возвращаем только первое имя.
         return first_name.split()[0]
     
-    
+
     def clean(self):
         # Получаем имя и фамилию из очищенных полей формы.
         first_name = self.cleaned_data['first_name']
