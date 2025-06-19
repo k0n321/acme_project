@@ -11,6 +11,31 @@ from django.core.paginator import Paginator
 
 from django.views.generic import ListView
 
+from django.views.generic import CreateView, ListView
+from django.urls import reverse_lazy
+
+from django.views.generic import CreateView, ListView, UpdateView
+
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+
+
+class BirthdayDeleteView(DeleteView):
+    model = Birthday
+    success_url = reverse_lazy('birthday:list') 
+
+class BirthdayUpdateView(UpdateView):
+    model = Birthday
+    form_class = BirthdayForm
+    template_name = 'birthday/birthday.html'
+    success_url = reverse_lazy('birthday:list') 
+
+
+class BirthdayCreateView(CreateView):
+    model = Birthday
+    # Указываем имя формы:
+    form_class = BirthdayForm
+    template_name = 'birthday/birthday.html'
+    success_url = reverse_lazy('birthday:list') 
 
 
 def birthday(request, pk=None):
