@@ -18,24 +18,52 @@ from django.views.generic import CreateView, ListView, UpdateView
 
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-
-class BirthdayDeleteView(DeleteView):
+class BirthdayMixin:
     model = Birthday
-    success_url = reverse_lazy('birthday:list') 
+    success_url = reverse_lazy('birthday:list')
 
-class BirthdayUpdateView(UpdateView):
-    model = Birthday
+
+class BirthdayFormMixin:
     form_class = BirthdayForm
     template_name = 'birthday/birthday.html'
-    success_url = reverse_lazy('birthday:list') 
 
-
-class BirthdayCreateView(CreateView):
+class BirthdayListView(ListView):
+    # Указываем модель, с которой работает CBV...
     model = Birthday
-    # Указываем имя формы:
-    form_class = BirthdayForm
-    template_name = 'birthday/birthday.html'
-    success_url = reverse_lazy('birthday:list') 
+    # ...сортировку, которая будет применена при выводе списка объектов:
+    ordering = 'id'
+    # ...и даже настройки пагинации:
+    paginate_by = 10 
+    
+
+class BirthdayCreateView(BirthdayMixin, BirthdayFormMixin, CreateView):
+    pass
+
+
+class BirthdayUpdateView(BirthdayMixin, BirthdayFormMixin, UpdateView):
+    pass
+
+
+class BirthdayDeleteView(BirthdayMixin, DeleteView):
+    pass 
+
+# class BirthdayDeleteView(DeleteView):
+#     model = Birthday
+#     success_url = reverse_lazy('birthday:list') 
+
+# class BirthdayUpdateView(UpdateView):
+#     model = Birthday
+#     form_class = BirthdayForm
+#     template_name = 'birthday/birthday.html'
+#     success_url = reverse_lazy('birthday:list') 
+
+
+# class BirthdayCreateView(CreateView):
+#     model = Birthday
+#     # Указываем имя формы:
+#     form_class = BirthdayForm
+#     template_name = 'birthday/birthday.html'
+#     success_url = reverse_lazy('birthday:list') 
 
 
 def birthday(request, pk=None):
@@ -94,13 +122,7 @@ def delete_birthday(request, pk):
     return render(request, 'birthday/birthday.html', context)
 
 
-class BirthdayListView(ListView):
-    # Указываем модель, с которой работает CBV...
-    model = Birthday
-    # ...сортировку, которая будет применена при выводе списка объектов:
-    ordering = 'id'
-    # ...и даже настройки пагинации:
-    paginate_by = 10 
+
 
 # def edit_birthday(request, pk):
 #     # Находим запрошенный объект для редактирования по первичному ключу
