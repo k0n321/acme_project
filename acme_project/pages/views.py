@@ -13,4 +13,4 @@ class HomePage(TemplateView):
         # значение ключа — число объектов модели Birthday.
         context['total_count'] = Birthday.objects.count()
         # Возвращаем изменённый словарь контекста.
-        return context 
+        return context
